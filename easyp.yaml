@@ -1,0 +1,37 @@
+# EasyP configuration file.
+# Documentation: https://easyp.tech/docs/guide/introduction/what-is
+
+lint:
+  use:
+    - DEFAULT
+  enum_zero_value_suffix: _NONE
+  service_suffix: Service
+
+breaking:
+  against_git_ref: main
+
+generate:
+  inputs:
+    - directory: proto
+  plugins:
+    - name: go
+      out: ./api
+      opts:
+        module: github.com/mtngaz/grpc-user-service/api
+    - name: go-grpc
+      out: ./api
+      opts:
+        module: github.com/mtngaz/grpc-user-service/api
+    - name: grpc-gateway
+      out: ./api
+      opts:
+        module: github.com/mtngaz/grpc-user-service/api
+    - name: openapiv2
+      out: swagger
+      opts:
+        simple_operation_ids: false
+        generate_unbound_methods: false
+
+deps:
+  - github.com/googleapis/googleapis
+  - github.com/grpc-ecosystem/grpc-gateway/v2

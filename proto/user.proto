@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+option go_package = "github.com/mtngaz/grpc-user-service/api;api";
+
+import "google/api/annotations.proto";
+
+package user.v1;
+
+message User {
+    int64 id = 1;
+    string name = 2;
+    string email = 3;
+}
+
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+}
+
+message CreateUserResponse {
+  User user = 1;
+}
+
+message UpdateUserRequest {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message UpdateUserResponse {
+  User user = 1;
+}
+
+message DeleteUserRequest {
+  int64 id = 1;
+}
+
+message DeleteUserResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message GetUserByIDRequest {
+  int64 id = 1;
+}
+
+message GetUserByIDResponse {
+  User user = 1;
+}
+
+message GetAllUsersRequest {}
+
+message GetAllUsersResponse {
+  repeated User users = 1;
+}
+
+// Service CRUD
+service UserService {
+  // Create User
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/users"
+      body: "*"
+    };
+  }
+
+  // Update User
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
+    option (google.api.http) = {
+      put: "/v1/users/{id}"
+      body: "*"
+    };
+  }
+
+  // Delete User
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+    option (google.api.http) = {
+      delete: "/v1/users/{id}"
+    };
+  }
+
+  // Get User
+  rpc GetUserByID(GetUserByIDRequest) returns (GetUserByIDResponse) {
+    option (google.api.http) = {
+      get: "/v1/users/{id}"
+    };
+  }
+
+  // Get all User
+  rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse) {
+    option (google.api.http) = {
+      get: "/v1/users"
+    };
+  }
+}
